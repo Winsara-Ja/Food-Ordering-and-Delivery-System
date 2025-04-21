@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+
+import CustomerHome from "./pages/CustomerPages/CustomerHome";
+import Item from "./pages/CustomerPages/Item";
+import Shops from "./pages/CustomerPages/Shops";
+import RestaurantMenus from "./pages/CustomerPages/RestaurantMenus";
+
+import AdminHome from "./pages/AdminPages/AdminHome";
+import ManageUsers from "./pages/AdminPages/ManageUsers";
+
+import RestaurantHome from "./pages/RestaurantOwnerPages/RestaurantHome";
+import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus"; 
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} /> 
+        <Route path="/customer-home" element={<CustomerHome />} />
+        <Route path="/restaurant-home" element={<RestaurantHome />} />
+        <Route path="/admin-home" element={<AdminHome />} />
+        <Route path="/menu/:id" element={<Item />} />
+        <Route path="/shops" element={<Shops />} />
+        <Route path="/restaurant/:id" element={<RestaurantMenus />} />
+        <Route path="/admin/users" element={<ManageUsers />} />
+        <Route path="/restaurant/menus" element={<ManageMenus />} />
+      </Routes>
+      <ToastContainer position="top-right" autoClose={3000} />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
