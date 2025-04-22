@@ -6,6 +6,8 @@ const { verifyToken, allowRoles } = require("../middlewares/authMiddleware");
 // Create a restaurant (restaurant_owner only)
 router.post("/", verifyToken, allowRoles("restaurant_owner"), restaurantController.createRestaurant);
 
+router.get("/my-restaurant", verifyToken, allowRoles("restaurant_owner"), restaurantController.getMyRestaurant);
+
 // Get all restaurants (admin only)
 router.get("/", verifyToken, allowRoles("admin", "restaurant_owner", "customer"), restaurantController.getAllRestaurants);
 

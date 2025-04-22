@@ -74,7 +74,7 @@ const ManageUsers = () => {
           <div className="w-2/3">
             <div className="overflow-y-auto h-[500px] rounded-lg">
               <table className="w-full table-auto text-center bg-gray-200">
-                <thead className="sticky top-0 bg-neutral-900 text-orange-400 z-10">
+                <thead className="sticky top-0 bg-gray-600 text-white z-10">
                   <tr>
                     <th className="p-3">Username</th>
                     <th className="p-3">Email</th>

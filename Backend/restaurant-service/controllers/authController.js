@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Restaurant = require("../models/Restaurant"); 
 
 // Register User
 exports.registerUser = async (req, res) => {
@@ -38,6 +39,13 @@ exports.loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid email or password" });
 
+    // Check if restaurant is registered (only for restaurant_owner)
+    let isRestaurantRegistered = true;
+    if (user.role === "restaurant_owner") {
+      const restaurant = await Restaurant.findOne({ owner: user._id }); // assuming `owner` is the reference
+      isRestaurantRegistered = !!restaurant;
+    }
+
     // Generate JWT Token
     const token = jwt.sign(
       { id: user._id, role: user.role },
@@ -45,7 +53,7 @@ exports.loginUser = async (req, res) => {
       { expiresIn: "2h" }
     );
 
-    res.json({ token, role: user.role });
+    res.json({ token, role: user.role, isRestaurantRegistered });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

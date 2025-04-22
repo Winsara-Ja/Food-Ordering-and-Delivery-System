@@ -16,7 +16,9 @@ import AdminHome from "./pages/AdminPages/AdminHome";
 import ManageUsers from "./pages/AdminPages/ManageUsers";
 
 import RestaurantHome from "./pages/RestaurantOwnerPages/RestaurantHome";
-import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus"; 
+import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus";
+import SetAvailability from "./pages/RestaurantOwnerPages/SetAvailability"; 
+import RestaurantRegistration from "./pages/RestaurantOwnerPages/RestaurantRegistration";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
         <Route path="/restaurant/:id" element={<RestaurantMenus />} />
         <Route path="/admin/users" element={<ManageUsers />} />
         <Route path="/restaurant/menus" element={<ManageMenus />} />
+        <Route path="/restaurant/availability" element={<SetAvailability />} />
+        <Route path="/register-restaurant" element={<RestaurantRegistration />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>

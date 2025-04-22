@@ -86,3 +86,15 @@ exports.deleteRestaurant = async (req, res) => {
     res.status(500).json({ message: "Error deleting restaurant", error: err.message });
   }
 };
+
+// Add in your router
+exports.getMyRestaurant = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findOne({ owner: req.user.id });
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+
+    res.json(restaurant);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching restaurant", error: err.message });
+  }
+};
