@@ -2,14 +2,15 @@ const Cart = require("../models/Cart");
 
 const AddToCart = async (req, res) => {
   try {
-    const { _id, ItemName, Description, Quantity, ItemPrice, userID } =
+    const { _id, itemName, Description, Quantity, Price, userID, RestaurantID } =
       req.body;
     const cartItem = await Cart.create({
       ItemID: _id,
-      ItemName: ItemName,
+      RestaurantID: RestaurantID,
+      ItemName: itemName,
       Description: Description,
       Quantity: Quantity,
-      ItemPrice: ItemPrice,
+      ItemPrice: Price,
       UserID: userID,
     });
 
@@ -41,9 +42,6 @@ const UpdateCartRemove = async (req, res) => {
   try {
     const { _id, Quantity } = req.body;
     await Cart.findByIdAndUpdate({ _id }, { Quantity: Quantity - 1 });
-    if (Quantity == 0) {
-      DeleteItem();
-    }
   } catch (error) {
     console.log(error);
   }

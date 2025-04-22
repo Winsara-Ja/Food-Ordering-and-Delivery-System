@@ -2,9 +2,10 @@ const Order = require("../models/Order");
 
 const OrderItem = async (req, res) => {
   try {
-    const { cartItems, Total, userID, UserName } = req.body;
+    const { cartItems, Total, userID, UserName, resID } = req.body;
     const order = await Order.create({
       UserID: userID,
+      RestaurantID: resID,
       UserName: UserName,
       ItemData: cartItems,
       TotalPrice: Total,
