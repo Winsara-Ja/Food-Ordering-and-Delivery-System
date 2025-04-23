@@ -7,6 +7,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
+import Cart from "./pages/Cart.jsx";
+import Order from "./pages/Order.jsx";
+
 import CustomerHome from "./pages/CustomerPages/CustomerHome";
 import Item from "./pages/CustomerPages/Item";
 import Shops from "./pages/CustomerPages/Shops";
@@ -33,6 +36,8 @@ function App() {
         <Route path="/restaurant/:id" element={<RestaurantMenus />} />
         <Route path="/admin/users" element={<ManageUsers />} />
         <Route path="/restaurant/menus" element={<ManageMenus />} />
+      <Route path="/cart" element={<Cart />}></Route>
+      <Route path="/order" element={<Order />}></Route>
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
