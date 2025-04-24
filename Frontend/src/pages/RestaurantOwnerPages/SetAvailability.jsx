@@ -50,14 +50,17 @@ const SetAvailability = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar role="restaurant_owner"/>
-    <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded-xl shadow-md mt-30">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Restaurant Availability</h2>
+    <div className="max-w-md mx-auto mt-10 bg-gray-100 p-6 rounded-xl shadow-md mt-30">
+      <h2 className="text-2xl font-bold mb-4 text-center">Restaurant Availability</h2>
+      <h3 className="text-center text-lg font-bold mb-2 text-gray-400">
+        {restaurant.name}
+      </h3>
       <p className="mb-6 text-center text-lg">
         Current Status: <span className={`font-bold ${restaurant.status === "open" ? "text-green-500" : "text-red-500"}`}>{restaurant.status.toUpperCase()}</span>
       </p>
       <button
         onClick={toggleAvailability}
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl font-semibold"
+        className="w-full bg-orange-400 hover:bg-orange-600 text-white py-2 rounded-xl font-semibold"
       >
         Set as {restaurant.status === "open" ? "Closed" : "Open"}
       </button>

@@ -6,11 +6,13 @@ import Footer from "../../components/Footer";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
+  const [dashboardRequests, setDashboardRequests] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
   const [form, setForm] = useState({ username: "", email: "", role: "" });
 
   useEffect(() => {
     fetchUsers();
+    fetchDashboardRequests();
   }, []);
 
   const fetchUsers = async () => {
@@ -24,6 +26,35 @@ const ManageUsers = () => {
       console.error("Error fetching users:", err);
     }
   };
+
+  const fetchDashboardRequests = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:4000/api/dashboard-requests", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setDashboardRequests(res.data);
+    } catch (err) {
+      console.error("Error fetching dashboard requests:", err);
+    }
+  };
+
+  const handleRequestStatusChange = async (id, newStatus) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:4000/api/dashboard-requests/${id}`,
+        { status: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      toast.success(`Request ${newStatus} successfully!`);
+      fetchDashboardRequests(); // Refresh list
+    } catch (err) {
+      console.error("Error updating request status:", err);
+      toast.error("Failed to update request status!");
+    }
+  };
+  
 
   const handleEdit = (user) => {
     setEditingUser(user._id);
@@ -151,6 +182,69 @@ const ManageUsers = () => {
             </div>
           )}
         </div>
+
+        {/* Dashboard Access Requests Section */}
+        <div className="mt-12">
+          <h2 className="text-xl font-semibold mb-4">Dashboard Access Requests</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full table-auto text-center bg-gray-100">
+              <thead className="bg-gray-600 text-white">
+                <tr>
+                  <th className="p-3">Email</th>
+                  <th className="p-3">Requested At</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dashboardRequests.length > 0 ? (
+                  dashboardRequests.map((req) => (
+                    <tr key={req._id} className="border-b border-gray-300">
+                      <td className="p-3">{req.email}</td>
+                      <td className="p-3">{new Date(req.createdAt).toLocaleString()}</td>
+                      <td className="p-3">
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm font-medium ${
+                            req.status === "approved"
+                              ? "bg-green-200 text-green-700"
+                              : req.status === "rejected"
+                              ? "bg-red-200 text-red-700"
+                              : "bg-yellow-200 text-yellow-700"
+                          }`}
+                        >
+                          {req.status}
+                        </span>
+                      </td>
+                      <td className="p-3 space-x-2">
+                        <button
+                          onClick={() => handleRequestStatusChange(req._id, "approved")}
+                          disabled={req.status === "approved"}
+                          className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded disabled:opacity-50"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => handleRequestStatusChange(req._id, "rejected")}
+                          disabled={req.status === "rejected"}
+                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded disabled:opacity-50"
+                        >
+                          Reject
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" className="p-3 text-gray-500">
+                      No dashboard access requests yet.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
       <Footer />
 

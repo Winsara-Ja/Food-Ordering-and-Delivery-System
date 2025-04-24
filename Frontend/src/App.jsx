@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ShopRegistration from "./pages/ShopRegistration";
 
 import CustomerHome from "./pages/CustomerPages/CustomerHome";
 import Item from "./pages/CustomerPages/Item";
@@ -19,6 +20,7 @@ import RestaurantHome from "./pages/RestaurantOwnerPages/RestaurantHome";
 import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus";
 import SetAvailability from "./pages/RestaurantOwnerPages/SetAvailability"; 
 import RestaurantRegistration from "./pages/RestaurantOwnerPages/RestaurantRegistration";
+import RequestDashboardAccess from "./pages/RestaurantOwnerPages/RequestDashboard";
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
         <Route path="/restaurant/menus" element={<ManageMenus />} />
         <Route path="/restaurant/availability" element={<SetAvailability />} />
         <Route path="/register-restaurant" element={<RestaurantRegistration />} />
+        <Route path="/add-restaurant" element={<ShopRegistration />} />
+        <Route path="/request-dashboard" element={<RequestDashboardAccess />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>

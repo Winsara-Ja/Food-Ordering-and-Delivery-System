@@ -6,6 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 const restaurantRoutes = require("./routes/restaurantRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const userManagementRoutes = require("./routes/userManagementRoutes");
+const requestDashboardRoutes = require("./routes/requestDashboardRoutes");
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/menu", menuRoutes);
 app.use("/api/user-management", userManagementRoutes);
+app.use("/api/dashboard-requests", requestDashboardRoutes);
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
