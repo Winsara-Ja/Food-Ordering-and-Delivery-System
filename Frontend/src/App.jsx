@@ -9,6 +9,10 @@ import Signup from "./pages/Signup";
 
 import Cart from "./pages/Cart.jsx";
 import Order from "./pages/Order.jsx";
+import Menu from "./pages/Menu.jsx";
+
+import CartNew from "./pages/CartNew.jsx";
+import NewOrders from "./pages/NewOrders.jsx";
 
 import CustomerHome from "./pages/CustomerPages/CustomerHome";
 import Item from "./pages/CustomerPages/Item";
@@ -19,7 +23,7 @@ import AdminHome from "./pages/AdminPages/AdminHome";
 import ManageUsers from "./pages/AdminPages/ManageUsers";
 
 import RestaurantHome from "./pages/RestaurantOwnerPages/RestaurantHome";
-import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus"; 
+import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus";
 
 function App() {
   return (
@@ -27,7 +31,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} /> 
+        <Route path="/signup" element={<Signup />} />
         <Route path="/customer-home" element={<CustomerHome />} />
         <Route path="/restaurant-home" element={<RestaurantHome />} />
         <Route path="/admin-home" element={<AdminHome />} />
@@ -36,8 +40,9 @@ function App() {
         <Route path="/restaurant/:id" element={<RestaurantMenus />} />
         <Route path="/admin/users" element={<ManageUsers />} />
         <Route path="/restaurant/menus" element={<ManageMenus />} />
-      <Route path="/cart" element={<Cart />}></Route>
-      <Route path="/order" element={<Order />}></Route>
+        <Route path="/cart" element={<CartNew />}></Route>
+        <Route path="/order" element={<NewOrders />}></Route>
+        <Route path="/menu" element={<Menu />}></Route>
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
