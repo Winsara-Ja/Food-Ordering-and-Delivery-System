@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import Footer from "../../components/footer";
 
 const Item = () => {
   const { id } = useParams();
@@ -22,11 +23,12 @@ const Item = () => {
           id: data._id,
           name: data.name,
           image: data.imageUrl,
-          price: `Rs. ${data.price}`,
+          price: data.price,
           description: data.description,
           category: data.category,
           available: data.available,
           restaurantName: data.restaurant?.name || "Unknown",
+          restaurantID: data.restaurant?._id || "Unknown",
         });
       } catch (err) {
         console.error("Failed to fetch item details:", err);
@@ -36,6 +38,15 @@ const Item = () => {
     fetchItem();
   }, [id]);
 
+  const token = localStorage.getItem("token");
+  const decoded = token ? jwtDecode(token) : null;
+  const userID = decoded?.id;
+
+  const restaurant = item?.restaurantID || "Unknown";
+  const restaurant_name = item?.restaurantName || "Unknown";
+
+  const Quantity = 1;
+
   const AddToCart = async (item) => {
     const { _id, name, description, price, image } = item;
     try {
@@ -43,6 +54,7 @@ const Item = () => {
         userID,
         _id,
         restaurant,
+        restaurant_name,
         name,
         description,
         Quantity,
@@ -92,7 +104,7 @@ const Item = () => {
           </div>
         </div>
 
-        <p className="text-2xl font-semibold mb-2">{item.price}</p>
+        <p className="text-2xl font-semibold mb-2">Rs. {item.price}</p>
         <p className="text-lg mb-4">
           {item.description || "No description available."}
         </p>
