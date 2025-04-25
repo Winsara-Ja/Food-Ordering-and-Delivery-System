@@ -2,10 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "./cart.css";
+import { FaPlus, FaMinus, FaRegTrashAlt } from "react-icons/fa";
 
 const Cart = () => {
-  const userID = "663b79ac751b61805e4a1a03";
+  const userID = "680911d5ae7c20b0e5428cdf";
   const UserName = "Jayana";
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const Cart = () => {
   }, [cartItems]);
 
   const resID = cartItems[0]?.RestaurantID;
+  const resName = "New York Pizza";
 
   const UpdateItemAdd = async (cartItem) => {
     const { _id, Quantity } = cartItem;
@@ -60,6 +61,7 @@ const Cart = () => {
       await axios.post("http://localhost:5000/order", {
         userID,
         resID,
+        resName,
         UserName,
         cartItems,
         Total,
@@ -82,115 +84,93 @@ const Cart = () => {
 
   return (
     <>
-      <div className="card">
-        <div className="cart">
-          <div className="title">
-            <div className="row">
-              <div className="col">
-                <h4 className="shpooing-cart-title">
-                  <b>Shopping Cart</b>
-                </h4>
-              </div>
-            </div>
-          </div>
-          <div className="titles">
-            <div className="item-title">Item</div>
-            <div className="price-title">Price</div>
-            <div className="total-title">Total</div>
-          </div>
-          <hr />
-          <div className="items">
-            {cartItems.map((cartItem) => {
-              return (
-                <>
-                  <div className="row main align-items-center">
-                    <div className="item-info">
-                      <img className="img" src="burger_img.jpg" />
-                      <div className="item-column">
-                        <div className="item-name">{cartItem.ItemName}</div>
-                        <div className="item-description">
-                          {cartItem.Description}
-                        </div>
-                        <div className="item-count">
-                          <div className="plus-btn">
-                            <button
-                              className="plus-btn"
-                              onClick={() => UpdateItemAdd(cartItem)}
-                            >
-                              +
-                            </button>
-                          </div>
-                          <div className="item-quantity">
-                            {cartItem.Quantity}
-                          </div>
-                          <div className="minus-btn">
-                            <button
-                              className="minus-btn"
-                              onClick={() => UpdateItemRemove(cartItem)}
-                            >
-                              -
-                            </button>
-                          </div>
-                        </div>
-                        <button
-                          className="delete-btn"
-                          onClick={() => DeleteItem(cartItem._id)}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col">Rs.{cartItem.ItemPrice}</div>
-                    <div className="total-price">
-                      Rs.
-                      {cartItem.Quantity * cartItem.ItemPrice}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-12">
+        <div className="lg:col-span-2">
+          <h2 className="text-2xl font-semibold mb-6 text-slate-800">
+            My Cart
+          </h2>
+          <div className="space-y-4">
+            {cartItems.map((item) => (
+              <div
+                key={item._id}
+                className="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-4 flex gap-4"
+              >
+                <img
+                  src={item.Image}
+                  alt={item.name}
+                  className="w-24 h-24 object-cover rounded-xl"
+                />
+                <div className="flex-1">
+                  <h3 className="font-medium text-lg text-slate-800">
+                    {item.ItemName}
+                  </h3>
+                  <p className="text-slate-500">{item.Description}</p>
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <button
+                        className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors"
+                        onClick={() => UpdateItemRemove(item)}
+                      >
+                        <FaMinus size={16} className="text-slate-600" />
+                      </button>
+                      <span className="font-medium text-slate-800 w-6 text-center">
+                        {item.Quantity}
+                      </span>
+                      <button
+                        className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors"
+                        onClick={() => UpdateItemAdd(item)}
+                      >
+                        <FaPlus size={16} className="text-slate-600" />
+                      </button>
+                      <button
+                        className="p-1.5 hover:bg-red-50 rounded-lg transition-colors text-red-500 ml-2"
+                        onClick={() => DeleteItem(item._id)}
+                      >
+                        <FaRegTrashAlt size={16} />
+                      </button>
                     </div>
                   </div>
-                </>
-              );
-            })}
+                </div>
+                <div className="mt-2 flex text-right gap-12">
+                  <div className="text-slate-600 font-medium">
+                    <p className="text-slate-800">Item Price</p>
+                    Rs. {item.ItemPrice}
+                  </div>
+                  <div className="text-slate-600 font-medium">
+                    <p className="text-slate-800">Total Price</p>
+                    Rs. {item.ItemPrice * item.Quantity}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="summary">
-          <div className="order-row">
-            <div className="summary-title">Summary</div>
-            <Link to="/order">
-              <div className="my-orders">
-                <button className="my-orders-btn">My Orders</button>
+
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 sticky top-4">
+            <h3 className="text-lg font-semibold mb-4 text-slate-800">
+              Order Summary
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between text-slate-600">
+                <span>Subtotal</span>
+                <span>Rs. {Total}</span>
               </div>
-            </Link>
-          </div>
-          <hr />
-          <div className="row">
-            <div className="col text-right">Do you have a Promo Code</div>
-            <input className="promo"></input>
-            <span>
-              <button className="apply">Apply</button>
-            </span>
-          </div>
-          <hr className="hr" />
-          <div className="summary-2-part">
-            <div className="subtotal">
-              <div>Sub Total</div>
-              <div>Rs. {Total}</div>
+              <div className="flex justify-between text-slate-600">
+                <span>Delivery Fee</span>
+                <span>Rs. TBD</span>
+              </div>
+              <div className="border-t border-slate-200 pt-3 mt-3">
+                <div className="flex justify-between font-medium text-base text-slate-800">
+                  <span>Total</span>
+                  <span>Rs. {Total}</span>
+                </div>
+              </div>
             </div>
-            <div className="shipping">
-              <div>Shipping</div>
-              <div>TBD</div>
-            </div>
-            <div className="taxes">
-              <div>Taxes</div>
-              <div>TBD</div>
-            </div>
-          </div>
-          <hr className="hr" />
-          <div className="estimated-total">
-            <div>ESTIMATED TOTAL</div>
-            <div>Rs. {Total}</div>
-          </div>
-          <hr className="hr" />
-          <div className="checkout-btn">
-            <button className="btn" onClick={() => Order(cartItems)}>
+            <button
+              className="w-full bg-gradient-to-r from-amber-600 to-yellow-600 text-white rounded-xl py-3 font-medium mt-6 hover:from-amber-700 hover:to-yellow-700 transition-all focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              onClick={() => Order(cartItems)}
+            >
               CHECKOUT
             </button>
           </div>
