@@ -9,18 +9,19 @@ import axios from "axios";
 const categories = [
   { id: 1, name: "Pizza", icon: "🍕" },
   { id: 2, name: "Burgers", icon: "🍔" },
-  { id: 3, name: "Sushi", icon: "🍣" },
+  { id: 3, name: "Pasta", icon: "🍝" },
   { id: 4, name: "Drinks", icon: "🥤" },
   { id: 5, name: "Desserts", icon: "🍰" },
-  { id: 6, name: "Fruits", icon: "🍎" },
+  { id: 6, name: "Chicken", icon: "🍗" },
   { id: 7, name: "Coffee", icon: "☕" },
   { id: 8, name: "Bakery", icon: "🥖" },
-  { id: 9, name: "Hotdogs", icon: "🌭" },
-  { id: 10, name: "Chicken", icon: "🍗" },
-  { id: 11, name: "Ice Cream", icon: "🍦" },
-  { id: 12, name: "Tacos", icon: "🌮" },
-  { id: 13, name: "Salad", icon: "🥗" },
-  { id: 14, name: "Noodles", icon: "🍜" },
+  { id: 9, name: "Indian", icon: "🥘" },
+  { id: 10, name: "Salads", icon: "🥗" },
+  { id: 11, name: "rice", icon: "🍚" },
+  { id: 13, name: "Seafood", icon: "🦐" },
+  { id: 15, name: "Sandwiches", icon: "🥪" },
+  { id: 16, name: "Breakfast", icon: "🍳" },
+  { id: 17, name: "Noodles", icon: "🍜" },
 ];
 
 const filterTags = ["All", "Popular", "New", "Spicy", "Healthy", "Quick Bites"];
@@ -29,6 +30,7 @@ const CustomerHome = () => {
   const [selectedTag, setSelectedTag] = useState("All");
   const [topSellers, setTopSellers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const navigate = useNavigate();
 
@@ -46,6 +48,7 @@ const CustomerHome = () => {
           name: item.name,
           image: item.imageUrl,
           price: `Rs. ${item.price}`,
+          category: item.category,
         }));
         setTopSellers(fetchedItems);
       } catch (err) {
@@ -65,19 +68,22 @@ const CustomerHome = () => {
         <section>
           <h2 className="text-2xl font-semibold px-10 py-6">Categories</h2>
           <div className="px-10 pr-10 overflow-x-auto scrollbar-hide">
-            <div className="flex space-x-4 pb-4">
-              {categories.map((cat) => (
-                <motion.div
-                  key={cat.id}
-                  whileHover={{ scale: 1.1 }}
-                  className="min-w-[100px] bg-gray-300 rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer hover:bg-gray-400 transition"
-                >
-                  <span className="text-3xl mb-2">{cat.icon}</span>
-                  <span className="text-sm font-medium text-center">
-                    {cat.name}
-                  </span>
-                </motion.div>
-              ))}
+            <div className="flex space-x-4 pb-4 pt-2">
+            {categories.map((cat) => (
+              <motion.div
+                key={cat.id}
+                whileHover={{ scale: 1.1 }}
+                onClick={() =>
+                  setSelectedCategory(selectedCategory === cat.name ? null : cat.name)
+                }
+                className={`min-w-[100px] rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer transition ${
+                  selectedCategory === cat.name ? "bg-orange-400" : "bg-gray-300 hover:bg-gray-400"
+                }`}
+              >
+                <span className="text-3xl mb-2">{cat.icon}</span>
+                <span className="text-sm font-medium text-center">{cat.name}</span>
+              </motion.div>
+            ))}
             </div>
           </div>
         </section>
@@ -123,6 +129,9 @@ const CustomerHome = () => {
             {topSellers
               .filter((item) =>
                 item.name.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .filter((item) =>
+                selectedCategory ? item.category === selectedCategory : true
               )
               .map((item) => (
                 <motion.div

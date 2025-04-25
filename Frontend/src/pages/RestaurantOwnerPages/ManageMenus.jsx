@@ -25,7 +25,7 @@ const ManageMenus = () => {
   const fetchMenus = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:4000/api/menu", {
+      const res = await axios.get("http://localhost:4000/api/menu/my-menu", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMenus(res.data.menuItems || []);

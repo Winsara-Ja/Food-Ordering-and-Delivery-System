@@ -89,26 +89,6 @@ exports.deleteMenuItem = async (req, res) => {
   }
 };
 
-// Toggle availability
-exports.toggleAvailability = async (req, res) => {
-  try {
-    const menuItem = await MenuItem.findById(req.params.id).populate("restaurant");
-
-    if (!menuItem) return res.status(404).json({ message: "Item not found" });
-
-    if (menuItem.restaurant.owner.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Unauthorized" });
-    }
-
-    menuItem.available = !menuItem.available;
-    await menuItem.save();
-
-    res.json({ message: `Item is now ${menuItem.available ? "available" : "unavailable"}`, menuItem });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to toggle availability", error: err.message });
-  }
-};
-
 // Get all menu items
 exports.getAllMenuItems = async (req, res) => {
   try {
@@ -134,3 +114,20 @@ exports.getMenuItemById = async (req, res) => {
   }
 };
 
+// Get all menu items for the logged-in restaurant owner
+exports.getAllMenus = async (req, res) => {
+  try {
+    // Find the restaurant linked to the logged-in user
+    const restaurant = await Restaurant.findOne({ owner: req.user.id });
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    // Fetch only the menu items that belong to that restaurant
+    const menuItems = await MenuItem.find({ restaurant: restaurant._id });
+
+    res.json({ menuItems });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch menu items", error: err.message });
+  }
+};

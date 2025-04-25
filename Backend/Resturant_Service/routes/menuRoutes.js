@@ -12,11 +12,11 @@ router.put("/:id", verifyToken, allowRoles("restaurant_owner"), menuController.u
 // Delete a menu item
 router.delete("/:id", verifyToken, allowRoles("restaurant_owner"), menuController.deleteMenuItem);
 
-// Toggle availability
-router.patch("/:id/availability", verifyToken, allowRoles("restaurant_owner"), menuController.toggleAvailability);
+// Get all menu items for the logged-in restaurant owner
+router.get("/my-menu", verifyToken, allowRoles("restaurant_owner"), menuController.getAllMenus);
 
-// Get all menu items (for both restaurant owners and customers)
-router.get("/", verifyToken, allowRoles("restaurant_owner", "customer"), menuController.getAllMenuItems);
+// Get all menu items (for customers)
+router.get("/", verifyToken, allowRoles("customer"), menuController.getAllMenuItems);
 
 // Get a single menu item by ID (for both restaurant owners and customers)
 router.get("/:id", verifyToken, allowRoles("restaurant_owner", "customer"), menuController.getMenuItemById);
