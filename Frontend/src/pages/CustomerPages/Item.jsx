@@ -85,7 +85,7 @@ const Item = () => {
             </button>
             <button
               className="bg-orange-400 hover:bg-orange-500 text-black font-semibold py-2 px-4 rounded-xl transition duration-200"
-              onClick={() => console.log("Add to Cart clicked")}
+              onClick={() => AddToCart(item)}
             >
               Add to Cart
             </button>
