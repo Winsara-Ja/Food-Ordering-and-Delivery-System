@@ -25,7 +25,7 @@ const ManageMenus = () => {
   const fetchMenus = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:4000/api/menu", {
+      const res = await axios.get("http://localhost:4000/api/menu/my-menu", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMenus(res.data.menuItems || []);
@@ -114,7 +114,7 @@ const ManageMenus = () => {
 
         <div className="w-full overflow-x-auto rounded-lg">
           <table className="w-full text-center bg-gray-100 border border-gray-300">
-            <thead className="bg-neutral-900 text-orange-400 sticky top-0 z-10">
+            <thead className="bg-gray-600 text-white sticky top-0 z-10">
               <tr>
                 <th className="p-3">Image</th>
                 <th className="p-3">Name</th>

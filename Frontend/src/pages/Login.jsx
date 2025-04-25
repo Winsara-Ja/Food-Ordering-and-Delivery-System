@@ -23,16 +23,24 @@ const Login = () => {
         password,
       });
 
-      const { token, role } = res.data;
+      const { token, role , isRestaurantRegistered } = res.data;
 
       // Save token to localStorage
       localStorage.setItem("token", token);
       if (remember) localStorage.setItem("rememberedEmail", email);
 
       // Navigate based on role
-      if (role === "customer") navigate("/customer-home");
-      else if (role === "restaurant_owner") navigate("/restaurant-home");
-      else if (role === "admin") navigate("/admin-home");
+      if (role === "customer") {
+        navigate("/customer-home");
+      } else if (role === "restaurant_owner") {
+        if (isRestaurantRegistered) {
+          navigate("/restaurant-home");
+        } else {
+          navigate("/register-restaurant");
+        }
+      } else if (role === "admin") {
+        navigate("/admin-home");
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     }
