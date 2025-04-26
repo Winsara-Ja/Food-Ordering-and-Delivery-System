@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import { FaPlus, FaMinus, FaRegTrashAlt } from "react-icons/fa";
 
@@ -86,7 +87,7 @@ const Cart = () => {
       } else {
         navigate("/order");
         clearCart();
-        // toast.success("Order Placed Successfully");
+        toast.success("Order Placed Successfully");
       }
     } catch (error) {
       console.log(error);

@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./pages/Home";
@@ -52,9 +53,13 @@ function App() {
         <Route path="/request-dashboard" element={<RequestDashboardAccess />} />
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/order" element={<Order />}></Route>
-        <Route path="/restaurant-verification" element={<RestaurantVerification />} />
+        <Route
+          path="/restaurant-verification"
+          element={<RestaurantVerification />}
+        />
         <Route path="/verify-restaurants" element={<Verification />} />
       </Routes>
+      <Toaster position="top-right" />
       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
   );
