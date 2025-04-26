@@ -61,6 +61,14 @@ const Cart = () => {
     }
   };
 
+  const clearCart = async () => {
+    try {
+      await axios.delete("http://localhost:5000/cart/clear/" + userID);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const Order = async (cartItems) => {
     try {
       await axios.post("http://localhost:5000/order", {
@@ -77,6 +85,8 @@ const Cart = () => {
         });
       } else {
         navigate("/order");
+        clearCart();
+        // toast.success("Order Placed Successfully");
       }
     } catch (error) {
       console.log(error);
