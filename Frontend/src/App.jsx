@@ -2,15 +2,17 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Toaster } from "react-hot-toast";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import "react-toastify/dist/ReactToastify.css";
+
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ShopRegistration from "./pages/ShopRegistration";
-
-import Cart from "./pages/Cart.jsx";
-import Order from "./pages/Order.jsx";
+import Cart from "./pages/Cart";
+import Order from "./pages/Order";
 
 import CustomerHome from "./pages/CustomerPages/CustomerHome";
 import Item from "./pages/CustomerPages/Item";
@@ -23,42 +25,53 @@ import Verification from "./pages/AdminPages/Verification";
 
 import RestaurantHome from "./pages/RestaurantOwnerPages/RestaurantHome";
 import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus";
-
 import SetAvailability from "./pages/RestaurantOwnerPages/SetAvailability";
 import RestaurantRegistration from "./pages/RestaurantOwnerPages/RestaurantRegistration";
 import RequestDashboardAccess from "./pages/RestaurantOwnerPages/RequestDashboard";
 import RestaurantVerification from "./pages/RestaurantOwnerPages/RestaurantVerification";
 
+// Checkout pages
+import Complete from "./pages/PaymentPages/checkout/Complete";
+import OrderSuccess from "./pages/PaymentPages/checkout/Success";
+import CheckoutPage from "./pages/PaymentPages/CheckoutPage";
+
+// Load Stripe
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/customer-home" element={<CustomerHome />} />
-        <Route path="/restaurant-home" element={<RestaurantHome />} />
-        <Route path="/admin-home" element={<AdminHome />} />
-        <Route path="/menu/:id" element={<Item />} />
-        <Route path="/shops" element={<Shops />} />
-        <Route path="/restaurant/:id" element={<RestaurantMenus />} />
-        <Route path="/admin/users" element={<ManageUsers />} />
-        <Route path="/restaurant/menus" element={<ManageMenus />} />
-        <Route path="/restaurant/availability" element={<SetAvailability />} />
-        <Route
-          path="/register-restaurant"
-          element={<RestaurantRegistration />}
-        />
-        <Route path="/add-restaurant" element={<ShopRegistration />} />
-        <Route path="/request-dashboard" element={<RequestDashboardAccess />} />
-        <Route path="/cart" element={<Cart />}></Route>
-        <Route path="/order" element={<Order />}></Route>
-        <Route
-          path="/restaurant-verification"
-          element={<RestaurantVerification />}
-        />
-        <Route path="/verify-restaurants" element={<Verification />} />
-      </Routes>
+      <Elements stripe={stripePromise}>
+        <Routes>
+          {/* Main Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/customer-home" element={<CustomerHome />} />
+          <Route path="/restaurant-home" element={<RestaurantHome />} />
+          <Route path="/admin-home" element={<AdminHome />} />
+          <Route path="/menu/:id" element={<Item />} />
+          <Route path="/shops" element={<Shops />} />
+          <Route path="/restaurant/:id" element={<RestaurantMenus />} />
+          <Route path="/admin/users" element={<ManageUsers />} />
+          <Route path="/restaurant/menus" element={<ManageMenus />} />
+          <Route path="/restaurant/availability" element={<SetAvailability />} />
+          <Route path="/register-restaurant" element={<RestaurantRegistration />} />
+          <Route path="/add-restaurant" element={<ShopRegistration />} />
+          <Route path="/request-dashboard" element={<RequestDashboardAccess />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/restaurant-verification" element={<RestaurantVerification />} />
+          <Route path="/verify-restaurants" element={<Verification />} />
+
+          {/* Checkout Flow Routes */}
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout/complete" element={<Complete />} />
+          <Route path="/checkout/success" element={<OrderSuccess />} />
+        </Routes>
+      </Elements>
+
+      {/* Toast notifications */}
       <Toaster position="top-right" />
       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
