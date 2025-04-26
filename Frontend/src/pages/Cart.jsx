@@ -1,12 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { FaPlus, FaMinus, FaRegTrashAlt } from "react-icons/fa";
 
 const Cart = () => {
-  const userID = "680911d5ae7c20b0e5428cdf";
-  const UserName = "Jayana";
+  const token = localStorage.getItem("token");
+  const decoded = token ? jwtDecode(token) : null;
+  const userID = decoded?.id;
+
+  const UserName = "";
+
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
   let Total = 0;
@@ -18,7 +23,7 @@ const Cart = () => {
   }, [cartItems]);
 
   const resID = cartItems[0]?.RestaurantID;
-  const resName = "New York Pizza";
+  const resName = cartItems[0]?.RestaurantName;
 
   const UpdateItemAdd = async (cartItem) => {
     const { _id, Quantity } = cartItem;
@@ -100,11 +105,13 @@ const Cart = () => {
                   alt={item.name}
                   className="w-24 h-24 object-cover rounded-xl"
                 />
-                <div className="flex-1">
+                <div className="flex-2">
                   <h3 className="font-medium text-lg text-slate-800">
                     {item.ItemName}
                   </h3>
-                  <p className="text-slate-500">{item.Description}</p>
+                  <p className="text-slate-500 line-clamp-3">
+                    {item.Description}
+                  </p>
                   <div>
                     <div className="flex items-center gap-3">
                       <button
@@ -131,7 +138,7 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-2 flex text-right gap-12">
+                <div className="mt-2 flex flex-1 text-right gap-12">
                   <div className="text-slate-600 font-medium">
                     <p className="text-slate-800">Item Price</p>
                     Rs. {item.ItemPrice}

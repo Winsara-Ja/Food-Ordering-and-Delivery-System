@@ -5,7 +5,6 @@ const cors = require("cors");
 
 const CartRoute = require("./routes/cartRoute");
 const OrderRoute = require("./routes/orderRoute");
-const ItemRoutes = require("./routes/itemRoute");
 
 const app = express();
 
@@ -28,7 +27,6 @@ connectDB();
 
 app.use("/", CartRoute);
 app.use("/", OrderRoute);
-app.use("/", ItemRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
