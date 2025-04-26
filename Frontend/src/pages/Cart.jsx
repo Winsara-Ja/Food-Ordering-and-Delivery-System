@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { FaPlus, FaMinus, FaRegTrashAlt } from "react-icons/fa";
+import Header from "../components/Header";
 
 const Cart = () => {
   const token = localStorage.getItem("token");
@@ -25,6 +26,8 @@ const Cart = () => {
 
   const resID = cartItems[0]?.RestaurantID;
   const resName = cartItems[0]?.RestaurantName;
+
+  const no_items = cartItems.length;
 
   const UpdateItemAdd = async (cartItem) => {
     const { _id, Quantity } = cartItem;
@@ -100,6 +103,7 @@ const Cart = () => {
 
   return (
     <>
+      <Header no_items={no_items} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-12">
         <div className="lg:col-span-2">
           <h2 className="text-2xl font-semibold mb-6 text-slate-800">
