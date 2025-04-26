@@ -36,7 +36,7 @@ const RestaurantRegistration = () => {
 
       toast.success("Restaurant Registered successfully!");
 
-      setTimeout(() => navigate("/restaurant-home"), 3000); // Wait for toast before navigating
+      setTimeout(() => navigate("/restaurant-verification"), 3000); // Wait for toast before navigating
     } catch (err) {
       toast.error("Create failed");
     }
