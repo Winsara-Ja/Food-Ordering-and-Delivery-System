@@ -88,7 +88,7 @@ const Navbar = ({ role = null }) => {
                 <Link to="/favorites" className="hover:text-orange-400 transition">Favorites</Link>
               </li>
               <li>
-                <Link to="/orders" className="hover:text-orange-400 transition">Orders</Link>
+                <Link to="/order" className="hover:text-orange-400 transition">Orders</Link>
               </li>
             </>
           )}

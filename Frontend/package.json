@@ -12,10 +12,13 @@
   "dependencies": {
     "@fontsource/manrope": "^5.2.5",
     "@fontsource/poppins": "^5.2.5",
+    "@stripe/react-stripe-js": "^3.6.0",
+    "@stripe/stripe-js": "^7.2.0",
     "@tailwindcss/vite": "^4.1.4",
     "axios": "^1.8.4",
     "framer-motion": "^12.7.2",
     "jwt-decode": "^4.0.0",
+    "lucide-react": "^0.503.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.4.1",

@@ -88,9 +88,9 @@ const Cart = () => {
           error: error,
         });
       } else {
-        navigate("/order");
+        navigate("/checkout");
         clearCart();
-        toast.success("Order Placed Successfully");
+        toast.success("Items Added to Order Successfully");
       }
     } catch (error) {
       console.log(error);
