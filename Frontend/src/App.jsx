@@ -18,6 +18,7 @@ import RestaurantMenus from "./pages/CustomerPages/RestaurantMenus";
 
 import AdminHome from "./pages/AdminPages/AdminHome";
 import ManageUsers from "./pages/AdminPages/ManageUsers";
+import Verification from "./pages/AdminPages/Verification";
 
 import RestaurantHome from "./pages/RestaurantOwnerPages/RestaurantHome";
 import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus";
@@ -25,6 +26,7 @@ import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus";
 import SetAvailability from "./pages/RestaurantOwnerPages/SetAvailability";
 import RestaurantRegistration from "./pages/RestaurantOwnerPages/RestaurantRegistration";
 import RequestDashboardAccess from "./pages/RestaurantOwnerPages/RequestDashboard";
+import RestaurantVerification from "./pages/RestaurantOwnerPages/RestaurantVerification";
 
 function App() {
   return (
@@ -50,6 +52,8 @@ function App() {
         <Route path="/request-dashboard" element={<RequestDashboardAccess />} />
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/order" element={<Order />}></Route>
+        <Route path="/restaurant-verification" element={<RestaurantVerification />} />
+        <Route path="/verify-restaurants" element={<Verification />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>

@@ -51,7 +51,7 @@ const Navbar = ({ role = null }) => {
                 <Link to="/admin/users" className="hover:text-orange-400 transition">Manage Users</Link>
               </li>
               <li>
-                <Link to="/admin/verify-restaurants" className="hover:text-orange-400 transition">Verify Restaurants</Link>
+                <Link to="/verify-restaurants" className="hover:text-orange-400 transition">Verify Restaurants</Link>
               </li>
               <li>
                 <Link to="/admin/finances" className="hover:text-orange-400 transition">Finances</Link>
