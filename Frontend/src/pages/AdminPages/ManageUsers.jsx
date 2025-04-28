@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Pencil, Trash2 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
@@ -120,18 +121,22 @@ const ManageUsers = () => {
                       <td className="p-3">{user.email}</td>
                       <td className="p-3">{user.role}</td>
                       <td className="p-3 space-x-3">
-                        <button
-                          onClick={() => handleEdit(user)}
-                          className="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(user._id)}
-                          className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded"
-                        >
-                          Delete
-                        </button>
+                        <div className="flex justify-center items-center gap-8">
+                          <button
+                            onClick={() => handleEdit(user)}
+                            className="text-orange-500 hover:text-orange-600"
+                            title="Edit"
+                          >
+                            <Pencil size={25} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(user._id)}
+                            className="text-red-500 hover:text-red-600"
+                            title="Delete"
+                          >
+                            <Trash2 size={25} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

@@ -19,6 +19,7 @@ import RestaurantMenus from "./pages/CustomerPages/RestaurantMenus";
 import AdminHome from "./pages/AdminPages/AdminHome";
 import ManageUsers from "./pages/AdminPages/ManageUsers";
 import Verification from "./pages/AdminPages/Verification";
+import Finances from "./pages/AdminPages/finances";
 
 import RestaurantHome from "./pages/RestaurantOwnerPages/RestaurantHome";
 import ManageMenus from "./pages/RestaurantOwnerPages/ManageMenus";
@@ -54,6 +55,7 @@ function App() {
         <Route path="/order" element={<Order />}></Route>
         <Route path="/restaurant-verification" element={<RestaurantVerification />} />
         <Route path="/verify-restaurants" element={<Verification />} />
+        <Route path="/admin/finances" element={<Finances />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
