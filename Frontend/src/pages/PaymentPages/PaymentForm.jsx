@@ -19,18 +19,19 @@ const PaymentForm = ({ shippingData, backStep, userId: initialUserId, token, ord
         const decoded = jwtDecode(token);
         if (decoded && decoded.id) {
           setUserId(decoded.id);
-          console.log('Decoded userId from token:', decoded.id);
+          console.log('[useEffect] Decoded userId from token:', decoded.id);
         } else {
-          console.error('Token does not contain user ID');
+          console.error('[useEffect] Token does not contain user ID');
         }
       } catch (error) {
-        console.error('Invalid token:', error.message);
+        console.error('[useEffect] Invalid token:', error.message);
       }
     }
   }, [initialUserId, token]);
 
-  console.log('Final userId:', userId);
-  console.log('Token prop:', token);
+  // Log every render for userId and token
+  console.log('[render] Final userId:', userId);
+  console.log('[render] Token prop:', token);
 
   const isValidObjectId = (id) => /^[a-f\d]{24}$/i.test(id);
 
@@ -38,8 +39,11 @@ const PaymentForm = ({ shippingData, backStep, userId: initialUserId, token, ord
     e.preventDefault();
     if (!stripe || !elements) return;
 
+    console.log('[handlePayment] userId before validation:', userId);
+
     if (!isValidObjectId(userId)) {
       alert('Invalid or missing user ID.');
+      console.error('[handlePayment] Invalid or missing user ID:', userId);
       return;
     }
 
@@ -85,16 +89,24 @@ const PaymentForm = ({ shippingData, backStep, userId: initialUserId, token, ord
           },
         };
 
+        console.log('[handlePayment] Payload for /payment/pay:', payload);
+
         const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/payment/pay`, payload);
 
-        //await axios.post(`${import.meta.env.VITE_API_BASE_URL}/notify/email-user`, payload);
+        // Log before calling notify/email-user
+        console.log('[handlePayment] Calling /notify/email-user with:', { userId, orderId });
+
+        await axios.post(`${import.meta.env.VITE_NOTIFICATION_API_URL}/notify/email-user`, {
+          userId,
+          orderId,
+        });        
 
         const confirmed = window.confirm(`✅ ${res.data.message}\n\nPress OK to continue.`);
         if (confirmed) {
           navigate(`/checkout/success/${orderId}`);
         }
       } catch (backendErr) {
-        console.error('Backend error:', backendErr.response || backendErr);
+        console.error('[handlePayment] Backend error:', backendErr.response || backendErr);
         alert('❌ Error processing payment.');
       } finally {
         setLoading(false);
