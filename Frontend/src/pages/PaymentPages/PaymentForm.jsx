@@ -91,7 +91,7 @@ const PaymentForm = ({ shippingData, backStep, userId: initialUserId, token, ord
 
         const confirmed = window.confirm(`✅ ${res.data.message}\n\nPress OK to continue.`);
         if (confirmed) {
-          navigate('/checkout/success');
+          navigate(`/checkout/success/${orderId}`);
         }
       } catch (backendErr) {
         console.error('Backend error:', backendErr.response || backendErr);
