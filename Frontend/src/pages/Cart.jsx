@@ -75,7 +75,7 @@ const Cart = () => {
 
   const Order = async (cartItems) => {
     try {
-      await axios.post("http://localhost:5000/order", {
+      const response = await axios.post("http://localhost:5000/order", {
         userID,
         resID,
         resName,
@@ -83,19 +83,27 @@ const Cart = () => {
         cartItems,
         Total,
       });
-      if (cartItems.error) {
-        res.json({
-          error: error,
-        });
-      } else {
-        navigate("/checkout");
-        clearCart();
-        toast.success("Items Added to Order Successfully");
+  
+      const orderId = response.data._id || response.data.orderId;
+  
+      if (!orderId) {
+        toast.error("Order creation failed. Please try again.");
+        return;
       }
+  
+      clearCart();
+      toast.success("Items Added to Order Successfully");
+  
+      // Pass orderId to checkout page
+      navigate(`/checkout/${orderId}`);
+      // or: navigate("/checkout", { state: { orderId } });
+  
     } catch (error) {
       console.log(error);
+      toast.error("Order creation failed.");
     }
   };
+  
 
   cartItems.map(
     ({ ItemPrice, Quantity }) => (Total = Total + ItemPrice * Quantity)

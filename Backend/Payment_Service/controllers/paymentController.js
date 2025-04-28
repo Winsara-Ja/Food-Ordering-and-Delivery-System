@@ -1,6 +1,7 @@
 const Stripe = require("stripe");
 const axios = require("axios");
 const PaymentInfo = require("../models/paymentInfo.model");
+const mongoose = require('mongoose');
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -28,16 +29,6 @@ exports.processPayment = async (req, res) => {
   } = cardDetails;
 
 
-  /* 1. Validate card number
-  const numberValidation = cardValidator.number(cardNumber); 
-  if (!numberValidation.isValid) {
-    return res.status(400).json({ error: "Invalid card number" });
-  }
-
-  const cardType = numberValidation.card.type;
-  const last4 = cardNumber.slice(-4);
-
-  */
 
   // 2. Validate other required fields
   if (!orderId || !userId || !phoneNumber || !cardHolderName || !paymentMethodId) {
@@ -49,15 +40,15 @@ exports.processPayment = async (req, res) => {
   // 3. Fetch amount from order-service
   let amountInCents;
   try {
-    const orderResponse = await axios.get(`http://order-service/api/orders/${orderId}`);
+    const orderResponse = await axios.get(`http://localhost:5000/orderItems/${orderId}`);
     const orderData = orderResponse.data;
 
-    if (!orderData || !orderData.totalPrice) {
+    if (!orderData || !orderData.TotalPrice) {
       return res.status(400).json({ error: "Invalid order data from order-service" });
     }
 
     // Convert LKR to cents (Stripe format)
-    amountInCents = Math.round(orderData.totalPrice * 100);
+    amountInCents = Math.round(orderData.TotalPrice * 100);
   } catch (error) {
     console.error("Order Service Error:", error.message);
     return res.status(500).json({ error: "Failed to fetch order details" });
@@ -75,8 +66,8 @@ exports.processPayment = async (req, res) => {
 
     // 6. Save to DB (without amount)
     const paymentRecord = new PaymentInfo({
-      userId,
-      //orderId,
+      userId,  
+      orderId,
       shippingAddress: {
         houseNumber,
         street,
@@ -110,11 +101,33 @@ exports.processPayment = async (req, res) => {
 
 
 exports.createPaymentIntent = async (req, res) => {
+  const { orderId } = req.body;
+
+  if (!orderId) {
+    return res.status(400).json({ error: "Order ID is required" });
+  }
+
+  let amountInCents;
+  try {
+    const orderResponse = await axios.get(`http://localhost:5000/orders/${orderId}`);
+    console.log("Order data from order-service:", orderResponse.data);
+    const orderData = orderResponse.data;
+
+    if (!orderData || !orderData.TotalPrice) {
+      return res.status(400).json({ error: "Invalid order data from order-service" });
+    }
+
+    amountInCents = Math.round(orderData.TotalPrice * 100);
+  } catch (error) {
+    console.error("Order Service Error:", error.message);
+    return res.status(500).json({ error: "Failed to fetch order details" });
+  }
+
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 17000, // LKR 170.00 (Stripe expects smallest currency unit)
+      amount: amountInCents,
       currency: "lkr",
-      automatic_payment_methods: { enabled: true }, // Optional but recommended
+      automatic_payment_methods: { enabled: true },
     });
 
     res.status(200).json({ clientSecret: paymentIntent.client_secret });
@@ -123,5 +136,6 @@ exports.createPaymentIntent = async (req, res) => {
     res.status(500).json({ error: "Failed to create payment intent" });
   }
 };
+
 
 

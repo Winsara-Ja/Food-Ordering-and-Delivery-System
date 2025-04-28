@@ -25,7 +25,6 @@ const ShippingForm = ({ nextStep }) => {
     <form
       onSubmit={handleSubmit}
       className="max-w-3xl mx-auto bg-zinc-50 p-10 rounded-xl shadow space-y-7 pt-8 border-zinc-300 border-2"
-
     >
       <h2 className="text-2xl font-semibold text-gray-800">Shipping Information</h2>
 
@@ -54,15 +53,13 @@ const ShippingForm = ({ nextStep }) => {
       </div>
 
       <div className="pt-3">
-      <button
-  type="submit"
-  style={{ backgroundColor: '#3859BC' }} 
-  className="text-white font-medium px-6 py-2 rounded-md shadow"
->
-  Next
-</button>
-
-
+        <button
+          type="submit"
+          style={{ backgroundColor: '#3859BC' }}
+          className="text-white font-medium px-6 py-2 rounded-md shadow"
+        >
+          Next
+        </button>
       </div>
     </form>
   );
