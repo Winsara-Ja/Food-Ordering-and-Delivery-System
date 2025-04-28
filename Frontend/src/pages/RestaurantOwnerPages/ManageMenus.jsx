@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
@@ -109,7 +110,7 @@ const ManageMenus = () => {
   return (
     <div className="min-h-screen">
       <Navbar role="restaurant_owner" />
-      <div className="max-w-7xl mx-auto pt-24 px-4">
+      <div className="max-w-7xl mx-auto pt-30 px-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Menu Management</h1>
           <button
@@ -153,25 +154,30 @@ const ManageMenus = () => {
                   <td className="p-3">Rs.{item.price}</td>
                   <td className="p-3">{item.category}</td>
                   <td className="p-3">{item.available ? "Yes" : "No"}</td>
-                  <td className="p-3 space-x-2">
-                    <button
-                      onClick={() => setViewingMenu(item)}
-                      className="bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded text-black"
-                    >
-                      View
-                    </button>
-                    <button
-                      onClick={() => handleEdit(item)}
-                      className="bg-orange-500 hover:bg-orange-600 text-black px-3 py-1 rounded"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item._id)}
-                      className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
-                    >
-                      Delete
-                    </button>
+                  <td className="p-3">
+                    <div className="flex justify-center items-center gap-8">
+                      <button
+                        onClick={() => setViewingMenu(item)}
+                        className="text-yellow-500 hover:text-yellow-600"
+                        title="View"
+                      >
+                        <Eye size={25} />
+                      </button>
+                      <button
+                        onClick={() => handleEdit(item)}
+                        className="text-orange-500 hover:text-orange-600"
+                        title="Edit"
+                      >
+                        <Pencil size={25} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item._id)}
+                        className="text-red-500 hover:text-red-600"
+                        title="Delete"
+                      >
+                        <Trash2 size={25} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

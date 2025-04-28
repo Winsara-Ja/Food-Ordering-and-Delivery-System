@@ -22,9 +22,9 @@ const Home = () => {
         <div className="absolute inset-0 bg-black opacity-20"></div>
 
         <div className="relative z-10 h-full flex flex-col justify-center items-center text-center text-white px-4">
-          <h1 className="text-5xl font-bold mb-6">WELCOME TO THE ......</h1>
+          <h1 className="text-5xl font-bold mb-6">WELCOME TO DELIVER EATS</h1>
           <p className="text-lg mb-8 max-w-xl">
-          Craving something delicious? The ...... brings your favorite meals from top local restaurants right to your doorstep. Enjoy fast, reliable delivery, 
+          Craving something delicious? The Deliver Eats brings your favorite meals from top local restaurants right to your doorstep. Enjoy fast, reliable delivery, 
           real-time order tracking, and exclusive deals—all in one. Whether it's breakfast, lunch, dinner, or a late-night snack, we've got you covered.
           </p>
           <button className="bg-orange-500 hover:bg-orange-600 px-6 py-3 rounded text-white font-semibold">
