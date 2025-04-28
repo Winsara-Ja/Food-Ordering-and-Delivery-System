@@ -38,25 +38,25 @@ const Shops = () => {
   return (
     <div className="min-h-screen ">
       <Navbar role="customer"/>
-      <div className="max-w-1xl mx-auto px-10 pt-30">
-      <h1 className="text-3xl font-bold mb-6">Restaurants</h1>
+      <div className="max-w-1xl mx-auto px-20 pt-30">
+      <h1 className="text-3xl font-bold pl-5 mb-6">Explore Top Food Spots</h1>
 
       {restaurants.length === 0 ? (
         <p>No restaurants found.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-1">
           {restaurants.map((restaurant) => (
           <div
           key={restaurant._id}
           onClick={() => navigate(`/restaurant/${restaurant._id}`)}
-          className="bg-gray-100 p-4 w-60 mx-auto rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer"
+          className="bg-gray-100 p-4 w-80 mx-auto rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer"
         >
         
               {restaurant.logoUrl && (
                 <img
                   src={restaurant.logoUrl}
                   alt={`${restaurant.name} logo`}
-                  className="w-full h-40 object-contain mx-auto rounded-lg mb-3"
+                  className="w-full h-60  rounded-lg mb-3"
                 />
               )}
               <h2 className="text-xl font-semibold">{restaurant.name}</h2>
