@@ -2,8 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import { FaPlus, FaMinus, FaRegTrashAlt } from "react-icons/fa";
+import Header from "../components/Header";
 
 const Cart = () => {
   const token = localStorage.getItem("token");
@@ -24,6 +26,8 @@ const Cart = () => {
 
   const resID = cartItems[0]?.RestaurantID;
   const resName = cartItems[0]?.RestaurantName;
+
+  const no_items = cartItems.length;
 
   const UpdateItemAdd = async (cartItem) => {
     const { _id, Quantity } = cartItem;
@@ -61,9 +65,17 @@ const Cart = () => {
     }
   };
 
+  const clearCart = async () => {
+    try {
+      await axios.delete("http://localhost:5000/cart/clear/" + userID);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const Order = async (cartItems) => {
     try {
-      await axios.post("http://localhost:5000/order", {
+      const response = await axios.post("http://localhost:5000/order", {
         userID,
         resID,
         resName,
@@ -71,17 +83,27 @@ const Cart = () => {
         cartItems,
         Total,
       });
-      if (cartItems.error) {
-        res.json({
-          error: error,
-        });
-      } else {
-        navigate("/order");
+  
+      const orderId = response.data._id || response.data.orderId;
+  
+      if (!orderId) {
+        toast.error("Order creation failed. Please try again.");
+        return;
       }
+  
+      clearCart();
+      toast.success("Items Added to Order Successfully");
+  
+      // Pass orderId to checkout page
+      navigate(`/checkout/${orderId}`);
+      // or: navigate("/checkout", { state: { orderId } });
+  
     } catch (error) {
       console.log(error);
+      toast.error("Order creation failed.");
     }
   };
+  
 
   cartItems.map(
     ({ ItemPrice, Quantity }) => (Total = Total + ItemPrice * Quantity)
@@ -89,6 +111,7 @@ const Cart = () => {
 
   return (
     <>
+      <Header no_items={no_items} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-12">
         <div className="lg:col-span-2">
           <h2 className="text-2xl font-semibold mb-6 text-slate-800">

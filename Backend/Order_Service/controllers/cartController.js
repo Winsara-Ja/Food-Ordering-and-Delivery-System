@@ -69,10 +69,22 @@ const getCartItems = async (req, res) => {
   }
 };
 
+const clearCart = async (req, res) => {
+  try {
+    const userID = req.params.id;
+    await Cart.deleteMany({ UserID: userID });
+    res.json({ message: "Cart cleared successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
 module.exports = {
   AddToCart,
   getCartItems,
   UpdateCartAdd,
   UpdateCartRemove,
   DeleteItem,
+  clearCart,
 };

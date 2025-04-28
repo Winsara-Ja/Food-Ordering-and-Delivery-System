@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/footer";
@@ -62,10 +63,10 @@ const Item = () => {
         price,
       });
       if (item.error) {
-        // toast.error(item.error);
+        toast.error(item.error);
         console.error(item.error);
       } else {
-        // toast.success("Item Added To The Cart");
+        toast.success("Item Added To The Cart");
         console.log("Item Added To The Cart");
       }
     } catch (error) {

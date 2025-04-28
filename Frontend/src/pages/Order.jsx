@@ -3,6 +3,7 @@ import { GrLocation } from "react-icons/gr";
 import { jwtDecode } from "jwt-decode";
 import { FaChevronRight, FaChevronDown, FaRegClock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import axios from "axios";
 
 const Order = () => {
@@ -38,6 +39,7 @@ const Order = () => {
 
   return (
     <>
+      <Header />
       <div className="p-12 bg-slate-50 min-h-screen">
         <h2 className="text-2xl font-semibold mb-6 text-slate-800">
           Order History

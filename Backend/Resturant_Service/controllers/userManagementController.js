@@ -69,3 +69,18 @@ exports.getAdminOverview = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+// Get a single user by ID
+exports.getUserByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId); // No .select() call
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch user', error: err.message });
+  }
+};
