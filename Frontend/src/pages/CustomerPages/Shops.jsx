@@ -44,12 +44,12 @@ const Shops = () => {
       {restaurants.length === 0 ? (
         <p>No restaurants found.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {restaurants.map((restaurant) => (
           <div
           key={restaurant._id}
           onClick={() => navigate(`/restaurant/${restaurant._id}`)}
-          className="bg-gray-100 p-4 w-80 mx-auto rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer"
+          className="bg-gray-100 p-4 w-70 mx-auto rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer"
         >
         
               {restaurant.logoUrl && (
