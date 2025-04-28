@@ -65,7 +65,7 @@ function App() {
           <Route path="/verify-restaurants" element={<Verification />} />
 
           {/* Checkout Flow Routes */}
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout/:orderId" element={<CheckoutPage />} />
           <Route path="/checkout/complete" element={<Complete />} />
           <Route path="/checkout/success" element={<OrderSuccess />} />
         </Routes>
