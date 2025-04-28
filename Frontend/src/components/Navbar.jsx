@@ -99,7 +99,7 @@ const Navbar = ({ role = null }) => {
                 <Link to="/" className="hover:text-orange-400 transition">Home</Link>
               </li>
               <li>
-                <Link to="/menu" className="hover:text-orange-400 transition">Menu</Link>
+                <Link to="/offers" className="hover:text-orange-400 transition">Offers</Link>
               </li>
               <li>
                 <Link to="/about" className="hover:text-orange-400 transition">About</Link>

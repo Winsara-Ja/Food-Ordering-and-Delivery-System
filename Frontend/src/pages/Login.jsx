@@ -110,6 +110,16 @@ const Login = () => {
             Login
           </button>
         </form>
+        {/* Sign Up link */}
+        <div className="mt-4 text-center text-sm">
+          <span className="text-gray-600">Don't have an account? </span>
+          <button 
+            onClick={() => navigate("/signup")} 
+            className="text-orange-400 hover:text-orange-500 font-semibold hover:underline"
+          >
+            Sign Up
+          </button>
+        </div>
       </motion.div>
     </div>
   );

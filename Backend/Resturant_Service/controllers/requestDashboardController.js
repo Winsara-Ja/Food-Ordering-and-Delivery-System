@@ -58,3 +58,17 @@ exports.updateRequestStatus = async (req, res) => {
   }
 };
 
+// Controller to get the count of pending dashboard access requests
+exports.getPendingDashboardAccessRequests = async (req, res) => {
+  try {
+    // Count the number of pending requests
+    const pendingCount = await DashboardAccessRequest.countDocuments({ status: "pending" });
+
+    // Send the count to the client
+    return res.status(200).json({ pendingRequests: pendingCount });
+  } catch (error) {
+    console.error("Error fetching pending requests:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+

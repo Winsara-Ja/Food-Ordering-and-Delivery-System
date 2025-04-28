@@ -84,7 +84,7 @@ const Item = () => {
         <img
           src={item.image}
           alt={item.name}
-          className="w-full h-80 object-cover rounded-lg mb-6"
+          className="w-full h-85 object-cover rounded-4xl mb-6"
         />
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <h1 className="text-4xl font-bold">{item.name}</h1>

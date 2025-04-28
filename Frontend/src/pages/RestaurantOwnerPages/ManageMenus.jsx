@@ -91,6 +91,15 @@ const ManageMenus = () => {
       toast.success("Menu item created!");
       setIsCreating(false);
       fetchMenus();
+      // Clear form values after creating a new menu
+      setForm({
+        name: "",
+        description: "",
+        price: "",
+        category: "",
+        available: true,
+        imageUrl: "",
+      });
     } catch (err) {
       console.error("Error creating menu item:", err);
       toast.error("Create failed");

@@ -49,3 +49,23 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: "Failed to delete user", error: err.message });
   }
 };
+
+// Controller for getting user count 
+exports.getAdminOverview = async (req, res) => {
+  try {
+    // Count users by role
+    const activeUsersCustomer = await User.countDocuments({ role: "customer" });
+    const activeUsersRestaurantOwner = await User.countDocuments({ role: "restaurant_owner" });
+    const activeUsersAdmin = await User.countDocuments({ role: "admin" });
+
+    // Return the data to the client
+    return res.status(200).json({
+      activeUsersCustomer,
+      activeUsersRestaurantOwner,
+      activeUsersAdmin
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
