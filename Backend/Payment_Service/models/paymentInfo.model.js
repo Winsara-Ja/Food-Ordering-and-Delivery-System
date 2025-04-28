@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const PaymentInfoSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   orderId: { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: true },
-
+  amount: { type: Number, required: true }, // in LKR
+  
   shippingAddress: {
     houseNumber: { type: String, required: true },
     street: { type: String, required: true },
