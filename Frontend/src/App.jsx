@@ -67,7 +67,7 @@ function App() {
           {/* Checkout Flow Routes */}
           <Route path="/checkout/:orderId" element={<CheckoutPage />} />
           <Route path="/checkout/complete" element={<Complete />} />
-          <Route path="/checkout/success" element={<OrderSuccess />} />
+          <Route path="/checkout/success/:orderId" element={<OrderSuccess />} />
         </Routes>
       </Elements>
 
