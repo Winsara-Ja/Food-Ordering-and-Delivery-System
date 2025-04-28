@@ -28,15 +28,15 @@ const Navbar = ({ role = null }) => {
   
 
   return (
-    <nav className="fixed w-full bg-neutral-900 text-white px-4 py-5 shadow-md z-50">
+    <nav className="fixed w-full bg-neutral-900 text-white px-5 py-4 shadow-md z-50">
       <div className="max-w-8xl mx-auto flex justify-between items-center">
         {/* Logo and Title */}
         <div className="flex items-center space-x-3">
-          <img src={logo} alt="Logo" className="h-10 w-10 object-contain" />
-          <span className="text-2xl font-bold">
+          <img src={logo} alt="Logo" className="h-15 w-15 object-cover rounded-full" />
+          <span className="text-2xl font-semi-bold">
             {role === "admin"
-              ? "Irish Café Admin"
-              :  "Irish Café"}
+              ? "DELIVER EATS Admin"
+              :  "DELIVER EATS"}
           </span>
         </div>
 
