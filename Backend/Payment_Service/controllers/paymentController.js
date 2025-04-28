@@ -36,24 +36,21 @@ exports.processPayment = async (req, res) => {
   }
   
 
-  /*
-  // 3. Fetch amount from order-service
-  let amountInCents;
+  // 3. Fetch amount from order-service (in LKR, not cents)
+  let amountLKR;
   try {
-    const orderResponse = await axios.get(`http://localhost:5000/orderItems/${orderId}`);
+    const orderResponse = await axios.get(`http://localhost:5000/orders/${orderId}`);
     const orderData = orderResponse.data;
 
     if (!orderData || !orderData.TotalPrice) {
       return res.status(400).json({ error: "Invalid order data from order-service" });
     }
 
-    // Convert LKR to cents (Stripe format)
-    amountInCents = Math.round(orderData.TotalPrice * 100);
+    amountLKR = orderData.TotalPrice; // Save as LKR, not cents
   } catch (error) {
     console.error("Order Service Error:", error.message);
     return res.status(500).json({ error: "Failed to fetch order details" });
   }
-    */
 
   try {
 
@@ -68,6 +65,7 @@ exports.processPayment = async (req, res) => {
     const paymentRecord = new PaymentInfo({
       userId,  
       orderId,
+      amount: amountLKR, // Save the amount in LKR
       shippingAddress: {
         houseNumber,
         street,
@@ -88,9 +86,9 @@ exports.processPayment = async (req, res) => {
     res.status(200).json({
       message: "Payment successful",
       paymentMethodId,
-      
       cardType,
-      last4
+      last4,
+      amount: amountLKR
     });
 
   } catch (err) {
