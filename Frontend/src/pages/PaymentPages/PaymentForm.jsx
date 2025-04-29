@@ -96,10 +96,19 @@ const PaymentForm = ({ shippingData, backStep, userId: initialUserId, token, ord
         // Log before calling notify/email-user
         console.log('[handlePayment] Calling /notify/email-user with:', { userId, orderId });
 
+        // Construct address string from shippingData
+        const address = `${shippingData.houseNumber}, ${shippingData.street}, ${shippingData.city}, ${shippingData.district}, ${shippingData.province}, ${shippingData.postalCode}`;
+
         await axios.post(`${import.meta.env.VITE_NOTIFICATION_API_URL}/notify/email-user`, {
           userId,
           orderId,
-        });        
+        });     
+
+        await axios.post(`${import.meta.env.VITE_NOTIFICATION_API_URL}/notify/email-driver`, {
+          userId,
+          orderId,
+          address
+        });      
 
         const confirmed = window.confirm(`✅ ${res.data.message}\n\nPress OK to continue.`);
         if (confirmed) {

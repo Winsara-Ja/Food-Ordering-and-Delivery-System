@@ -20,4 +20,6 @@ router.put("/:id", verifyToken, allowRoles("restaurant_owner"), restaurantContro
 // Delete a restaurant (admin only)
 router.delete("/:id", verifyToken, allowRoles("admin"), restaurantController.deleteRestaurant);
 
+router.get("/res/:id",restaurantController.getRestaurantByResId)
+
 module.exports = router;
