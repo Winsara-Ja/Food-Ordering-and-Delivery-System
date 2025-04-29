@@ -75,6 +75,7 @@ exports.updateRestaurant = async (req, res) => {
   }
 };
 
+
 // Delete restaurant (admin only)
 exports.deleteRestaurant = async (req, res) => {
   try {
@@ -98,3 +99,22 @@ exports.getMyRestaurant = async (req, res) => {
     res.status(500).json({ message: "Error fetching restaurant", error: err.message });
   }
 };
+
+// Mock API to return restaurant location based on ID
+exports.getRestaurantLocation = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Mock location for the restaurant (you can customize this)
+    const mockLocation = {
+      lat: 6.9210, // Latitude of the mock location
+      lng: 79.9745, // Longitude of the mock location
+    };
+
+    return res.json(mockLocation);
+
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching restaurant location", error: err.message });
+  }
+};
+

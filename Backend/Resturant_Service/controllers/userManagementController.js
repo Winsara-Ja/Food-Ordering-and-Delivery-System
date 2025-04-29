@@ -49,3 +49,20 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: "Failed to delete user", error: err.message });
   }
 };
+
+// Mock API to return customer location based on ID
+exports.getCustomerLocation = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Mock location for the customer
+    const mockLocation = {
+      lat: 6.9148, 
+      lng: 79.9731 
+    };
+    return res.json(mockLocation);
+
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching customer location", error: err.message });
+  }
+};

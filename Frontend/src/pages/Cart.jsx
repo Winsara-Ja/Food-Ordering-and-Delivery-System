@@ -19,7 +19,7 @@ const Cart = () => {
   let Total = 0;
   useEffect(() => {
     axios
-      .get("http://localhost:5000/cart/" + userID)
+      .get("http://localhost:5001/cart/" + userID)
       .then((cartItems) => setCartItems(cartItems.data))
       .catch((err) => console.log(err));
   }, [cartItems]);
@@ -32,7 +32,7 @@ const Cart = () => {
   const UpdateItemAdd = async (cartItem) => {
     const { _id, Quantity } = cartItem;
     try {
-      await axios.put("http://localhost:5000/update/add", {
+      await axios.put("http://localhost:5001/update/add", {
         _id,
         Quantity,
       });
@@ -47,7 +47,7 @@ const Cart = () => {
       DeleteItem(cartItem._id);
     } else {
       try {
-        await axios.put("http://localhost:5000/update/remove", {
+        await axios.put("http://localhost:5001/update/remove", {
           _id,
           Quantity,
         });
@@ -59,7 +59,7 @@ const Cart = () => {
 
   const DeleteItem = async (id) => {
     try {
-      await axios.delete("http://localhost:5000/item/delete/" + id);
+      await axios.delete("http://localhost:5001/item/delete/" + id);
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +67,7 @@ const Cart = () => {
 
   const clearCart = async () => {
     try {
-      await axios.delete("http://localhost:5000/cart/clear/" + userID);
+      await axios.delete("http://localhost:5001/cart/clear/" + userID);
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +75,7 @@ const Cart = () => {
 
   const Order = async (cartItems) => {
     try {
-      await axios.post("http://localhost:5000/order", {
+      const response = await axios.post("http://localhost:5001/order", {
         userID,
         resID,
         resName,
@@ -83,19 +83,27 @@ const Cart = () => {
         cartItems,
         Total,
       });
-      if (cartItems.error) {
-        res.json({
-          error: error,
-        });
-      } else {
-        navigate("/checkout");
-        clearCart();
-        toast.success("Items Added to Order Successfully");
+  
+      const orderId = response.data._id || response.data.orderId;
+  
+      if (!orderId) {
+        toast.error("Order creation failed. Please try again.");
+        return;
       }
+  
+      clearCart();
+      toast.success("Items Added to Order Successfully");
+  
+      // Pass orderId to checkout page
+      navigate(`/checkout/${orderId}`);
+      // or: navigate("/checkout", { state: { orderId } });
+  
     } catch (error) {
       console.log(error);
+      toast.error("Order creation failed.");
     }
   };
+  
 
   cartItems.map(
     ({ ItemPrice, Quantity }) => (Total = Total + ItemPrice * Quantity)

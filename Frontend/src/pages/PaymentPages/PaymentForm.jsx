@@ -1,23 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
-const PaymentForm = ({ shippingData, backStep }) => {
+const PaymentForm = ({ shippingData, backStep, userId: initialUserId, token, orderId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
   const [cardHolderName, setCardHolderName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState(initialUserId || '');
+
+  useEffect(() => {
+    if (!initialUserId && token) {
+      try {
+        const decoded = jwtDecode(token);
+        if (decoded && decoded.id) {
+          setUserId(decoded.id);
+          console.log('Decoded userId from token:', decoded.id);
+        } else {
+          console.error('Token does not contain user ID');
+        }
+      } catch (error) {
+        console.error('Invalid token:', error.message);
+      }
+    }
+  }, [initialUserId, token]);
+
+  console.log('Final userId:', userId);
+  console.log('Token prop:', token);
+
+  const isValidObjectId = (id) => /^[a-f\d]{24}$/i.test(id);
 
   const handlePayment = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) return;
 
+    if (!isValidObjectId(userId)) {
+      alert('Invalid or missing user ID.');
+      return;
+    }
+
     setLoading(true);
 
-    
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -31,53 +58,51 @@ const PaymentForm = ({ shippingData, backStep }) => {
       },
       redirect: 'if_required',
     });
-    
+
     if (error) {
       alert(error.message);
       setLoading(false);
       return;
     }
-    
-    // ✅ Only send to backend if paymentIntent succeeded
+
     if (paymentIntent?.status === 'succeeded') {
-      const payload = {
-        userId: '6809d73456d9eba1c32bb819',
-        orderId: '680a009256d9eba1c32bb81a',
-        address: {
-          houseNumber: shippingData.houseNumber,
-          street: shippingData.street,
-          city: shippingData.city,
-          district: shippingData.district,
-          province: shippingData.province,
-          postalCode: shippingData.postalCode,
-        },
-        phoneNumber: shippingData.phone,
-        cardDetails: {
-          paymentMethodId: paymentIntent.payment_method,
-          cardHolderName
-        },
-      };
-    
       try {
-        // 1. Send to payment save route
+        const payload = {
+          userId,
+          orderId, // use the passed orderId prop
+          address: {
+            houseNumber: shippingData.houseNumber,
+            street: shippingData.street,
+            city: shippingData.city,
+            district: shippingData.district,
+            province: shippingData.province,
+            postalCode: shippingData.postalCode,
+          },
+          phoneNumber: shippingData.phone,
+          cardDetails: {
+            paymentMethodId: paymentIntent.payment_method,
+            cardHolderName,
+          },
+        };
+
         const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/payment/pay`, payload);
-      
-        // 2. Now send to email notification route
-        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/notify/email-user`, payload);
-      
+
+        //await axios.post(`${import.meta.env.VITE_API_BASE_URL}/notify/email-user`, payload);
+
         const confirmed = window.confirm(`✅ ${res.data.message}\n\nPress OK to continue.`);
         if (confirmed) {
           navigate('/checkout/success');
         }
       } catch (backendErr) {
-        console.error(backendErr);
-        alert('❌ Backend error saving payment info.');
+        console.error('Backend error:', backendErr.response || backendErr);
+        alert('❌ Error processing payment.');
+      } finally {
+        setLoading(false);
       }
     } else {
       alert('❌ Payment not completed.');
+      setLoading(false);
     }
-    
-
   };
 
   return (
@@ -95,7 +120,7 @@ const PaymentForm = ({ shippingData, backStep }) => {
         />
       </div>
 
-      <div className='pt-2 pb-2 bg-zinc-50'>
+      <div className="pt-2 pb-2 bg-zinc-50">
         <PaymentElement />
       </div>
 
@@ -103,7 +128,7 @@ const PaymentForm = ({ shippingData, backStep }) => {
         <button
           type="button"
           onClick={backStep}
-          style={{ backgroundColor: '#3859BC' }} 
+          style={{ backgroundColor: '#3859BC' }}
           className="bg-gray-500 text-white px-4 py-2 rounded"
         >
           Back
@@ -111,7 +136,7 @@ const PaymentForm = ({ shippingData, backStep }) => {
         <button
           type="submit"
           disabled={!stripe || loading}
-          style={{ backgroundColor: '#06B12B' }} 
+          style={{ backgroundColor: '#06B12B' }}
           className="bg-blue-600 text-white px-4 py-2 rounded"
         >
           {loading ? 'Processing...' : 'Pay Now'}
@@ -132,6 +157,9 @@ PaymentForm.propTypes = {
     postalCode: PropTypes.string.isRequired,
   }).isRequired,
   backStep: PropTypes.func.isRequired,
+  userId: PropTypes.string,
+  token: PropTypes.string,
+  orderId: PropTypes.string.isRequired,
 };
 
 export default PaymentForm;

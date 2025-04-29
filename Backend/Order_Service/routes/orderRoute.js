@@ -6,6 +6,7 @@ const {
   getOrders,
   ChangeStatus,
   getAllOrders,
+  getOrderById,
 } = require("../controllers/orderController");
 
 router.use(
@@ -19,5 +20,6 @@ router.post("/order", OrderItem);
 router.get("/orderItems/:id", getOrders);
 router.get("/orderItems", getAllOrders);
 router.put("/order/status", ChangeStatus);
+router.get("/orders/:orderId", getOrderById); // New route to get order by ID
 
 module.exports = router;

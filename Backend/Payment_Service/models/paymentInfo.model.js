@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const PaymentInfoSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  //orderId: { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: true },
+  orderId: { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: true },
 
   shippingAddress: {
     houseNumber: { type: String, required: true },

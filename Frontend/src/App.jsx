@@ -35,6 +35,16 @@ import Complete from "./pages/PaymentPages/checkout/Complete";
 import OrderSuccess from "./pages/PaymentPages/checkout/Success";
 import CheckoutPage from "./pages/PaymentPages/CheckoutPage";
 
+
+//Delivery Pages
+import CustomerDeliveryTracking  from "./pages/DeliveryPages/CustomerDeliveryTracking"
+
+import { DriverLogin } from './pages/DeliveryPages/DriverPages/DriverLogin';
+import { Register } from './pages/DeliveryPages/DriverPages/Register';
+import { DriverLocation } from './pages/DeliveryPages/DriverPages/DriverLocation';
+import { DriverDeliveries } from './pages/DeliveryPages/DriverPages/DriverDeliveries';
+import { DriverAcceptDelivery } from './pages/DeliveryPages/DriverPages/DriverAcceptDelivery';
+
 // Load Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -65,9 +75,23 @@ function App() {
           <Route path="/verify-restaurants" element={<Verification />} />
 
           {/* Checkout Flow Routes */}
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout/:orderId" element={<CheckoutPage />} />
           <Route path="/checkout/complete" element={<Complete />} />
           <Route path="/checkout/success" element={<OrderSuccess />} />
+
+          {/* Delivery Flow Routes */}
+          <Route path="/delivery/:deliveryId" element={<CustomerDeliveryTracking />} />
+
+        <Route path="/driver-login" element={<DriverLogin />} />
+        <Route path="/driver-register" element={<Register />} />
+        <Route path="/online" element={<DriverLocation />} />
+        <Route path="/my-deliveries" element={<DriverDeliveries />} />
+        
+        {/* Route with dynamic deliveryId */}
+        <Route path="/start/:deliveryId" element={<DriverAcceptDelivery />} />        
+          
+
+
         </Routes>
       </Elements>
 

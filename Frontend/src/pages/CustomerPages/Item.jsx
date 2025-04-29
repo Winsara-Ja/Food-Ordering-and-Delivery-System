@@ -51,7 +51,7 @@ const Item = () => {
   const AddToCart = async (item) => {
     const { _id, name, description, price, image } = item;
     try {
-      await axios.post("http://localhost:5000/addtocart", {
+      await axios.post("http://localhost:5001/addtocart", {
         userID,
         _id,
         restaurant,
