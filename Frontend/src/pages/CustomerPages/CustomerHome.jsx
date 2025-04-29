@@ -24,7 +24,7 @@ const categories = [
   { id: 17, name: "Noodles", icon: "🍜" },
 ];
 
-const filterTags = ["All", "Popular", "New", "Spicy", "Healthy", "Quick Bites"];
+const filterTags = ["All", "Popular", "New", "Spicy", "Healthy", "Offers"];
 
 const CustomerHome = () => {
   const [selectedTag, setSelectedTag] = useState("All");
@@ -125,7 +125,7 @@ const CustomerHome = () => {
         {/* Top Sellers */}
         <section className="mb-10 py-8 px-10">
           <h2 className="text-2xl font-semibold mb-4">Top Sellers</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
             {topSellers
               .filter((item) =>
                 item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -143,7 +143,7 @@ const CustomerHome = () => {
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full h-40 object-cover"
+                    className="w-full h-65 object-cover"
                   />
                   <div className="p-4">
                     <h3 className="text-lg font-semibold">{item.name}</h3>

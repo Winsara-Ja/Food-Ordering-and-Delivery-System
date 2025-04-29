@@ -22,7 +22,7 @@ const Order = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.OS_VITE_API_URL}/orderItems/` + userID)
+      .get(`http://localhost:5001/orderItems/` + userID)
       .then((orderItems) => {
         setOrderItems(orderItems.data);
         setSearch(orderItems.data);

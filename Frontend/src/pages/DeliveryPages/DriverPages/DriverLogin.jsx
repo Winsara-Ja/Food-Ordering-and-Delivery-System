@@ -21,7 +21,7 @@ export const DriverLogin = () => {
       if (response.data.success) {
         localStorage.setItem('authToken', response.data.token);
 
-        window.location.href = '/dashboard'; 
+        window.location.href = '/online'; 
       }
     } catch (error) {
       setErrorMessage(error.response ? error.response.data.message : 'An error occurred. Please try again.');

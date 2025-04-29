@@ -51,7 +51,9 @@ const CheckoutStepper = ({ orderId }) => {  // <-- Accept orderId as prop
   return (
     <div className="flex justify-center mt-8 ">
       <div className="w-full">
-        <p className="text-3xl font-bold mb-3 text-center">Checkout</p>
+      <p className="text-4xl font-semibold text-neutral-900 text-center mb-6 tracking-tight">
+        Checkout
+      </p>
         <div className="mt-0 mb-6 pt-8">
           <Stepper steps={steps} activeStep={activeStep} />
         </div>

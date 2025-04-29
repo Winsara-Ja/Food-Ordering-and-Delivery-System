@@ -21,7 +21,7 @@ const ShopRegistration = () => {
     {
       number: 2,
       title: "Request access",
-      description: "to the Restaurant Owner Dashboard after signing in. You’ll find a button to apply on your profile page.",
+      description: "to the Restaurant Owner Dashboard after signing in. You’ll find a link to apply on the home page.",
     },
     {
       number: 3,

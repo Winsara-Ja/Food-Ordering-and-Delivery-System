@@ -66,3 +66,38 @@ exports.getCustomerLocation = async (req, res) => {
     res.status(500).json({ message: "Error fetching customer location", error: err.message });
   }
 };
+
+// Controller for getting user count 
+exports.getAdminOverview = async (req, res) => {
+  try {
+    // Count users by role
+    const activeUsersCustomer = await User.countDocuments({ role: "customer" });
+    const activeUsersRestaurantOwner = await User.countDocuments({ role: "restaurant_owner" });
+    const activeUsersAdmin = await User.countDocuments({ role: "admin" });
+
+    // Return the data to the client
+    return res.status(200).json({
+      activeUsersCustomer,
+      activeUsersRestaurantOwner,
+      activeUsersAdmin
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+// Get a single user by ID
+exports.getUserByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId); // No .select() call
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch user', error: err.message });
+  }
+};

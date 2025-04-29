@@ -55,9 +55,9 @@ const OrderSuccess = () => {
     }
   }, []); // Empty dependency array ensures this runs once on mount
 
+
   return (
-    <div className="flex flex-col min-h-screen w-screen bg-white">
-      {/* Navbar at top */}
+    <div className="flex flex-col min-h-screen w-screen bg-gradient-to-b from-white to-zinc-100">
       <Navbar role="customer" />
 
       {/* Main content */}
@@ -74,7 +74,7 @@ const OrderSuccess = () => {
         </div>
       </div>
 
-      {/* Footer at bottom */}
+
       <Footer />
     </div>
   );

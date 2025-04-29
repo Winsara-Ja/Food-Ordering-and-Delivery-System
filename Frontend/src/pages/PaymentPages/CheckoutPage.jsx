@@ -16,10 +16,10 @@ const CheckoutPage = () => {
       <Navbar role="customer" />
       {/* Main content area */}
       <div className="flex flex-1 w-full pt-20">
-        <div className="w-[58vw] bg-white px-20 py-5">
+        <div className="w-[57vw] bg-white px-20 py-5">
           <CheckoutStepper token={token} orderId={orderId} /> {/* Pass orderId if needed */}
         </div>
-        <div className="w-[42vw] bg-white px-8 py-10 pr-20">
+        <div className="w-[43vw] bg-white pl-1 pr-14">
           <OrderDetails orderId={orderId} /> {/* Pass orderId as prop */}
         </div>
       </div>

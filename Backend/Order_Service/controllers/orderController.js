@@ -17,6 +17,7 @@ const OrderItem = async (req, res) => {
       return res.json({
         msg: "Order Successful",
         orderId: order._id, // <-- This is the key change!
+
       });
     }
     if (!order) {
@@ -29,6 +30,7 @@ const OrderItem = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 
 const getOrders = async (req, res) => {
@@ -60,6 +62,8 @@ const ChangeStatus = async (req, res) => {
     console.log(error);
   }
 };
+
+
 
 const mongoose = require('mongoose');
 
