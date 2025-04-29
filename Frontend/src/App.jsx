@@ -6,13 +6,13 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import "react-toastify/dist/ReactToastify.css";
 
-
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ShopRegistration from "./pages/ShopRegistration";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
+import ManagerOrders from "./pages/RestaurantOwnerPages/ManagerOrders";
 
 import CustomerHome from "./pages/CustomerPages/CustomerHome";
 import Item from "./pages/CustomerPages/Item";
@@ -56,13 +56,26 @@ function App() {
           <Route path="/restaurant/:id" element={<RestaurantMenus />} />
           <Route path="/admin/users" element={<ManageUsers />} />
           <Route path="/restaurant/menus" element={<ManageMenus />} />
-          <Route path="/restaurant/availability" element={<SetAvailability />} />
-          <Route path="/register-restaurant" element={<RestaurantRegistration />} />
+          <Route path="/restaurant/orders" element={<ManagerOrders />} />
+          <Route
+            path="/restaurant/availability"
+            element={<SetAvailability />}
+          />
+          <Route
+            path="/register-restaurant"
+            element={<RestaurantRegistration />}
+          />
           <Route path="/add-restaurant" element={<ShopRegistration />} />
-          <Route path="/request-dashboard" element={<RequestDashboardAccess />} />
+          <Route
+            path="/request-dashboard"
+            element={<RequestDashboardAccess />}
+          />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
-          <Route path="/restaurant-verification" element={<RestaurantVerification />} />
+          <Route
+            path="/restaurant-verification"
+            element={<RestaurantVerification />}
+          />
           <Route path="/verify-restaurants" element={<Verification />} />
           <Route path="/admin/finances" element={<Finances />} />
 
