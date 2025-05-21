@@ -1,9 +1,7 @@
 FROM node:23-alpine
 
-COPY package.json /app/
-COPY package-lock.json /app/
-COPY server.js /app/
-COPY controllers /app/controllers/
+COPY package*.json /app/
+COPY . /app
 
 WORKDIR /app
 
